@@ -163,10 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
       state.gallery = galList;
       state.testimonials = testList;
 
-      document.getElementById('statAppointmentsCount').innerText = aptList.length;
-      document.getElementById('statMessagesCount').innerText = msgList.length;
-      document.getElementById('statGalleryCount').innerText = galList.length;
-      document.getElementById('statTestimonialsCount').innerText = testList.length;
+      const aptEl = document.getElementById('statAppointmentsCount');
+      const msgEl = document.getElementById('statMessagesCount');
+      const galEl = document.getElementById('statGalleryCount');
+      const testEl = document.getElementById('statTestimonialsCount');
+
+      if (aptEl) aptEl.innerText = Number.isInteger(aptList.length) ? aptList.length : 0;
+      if (msgEl) msgEl.innerText = Number.isInteger(msgList.length) ? msgList.length : 0;
+      if (galEl) galEl.innerText = Number.isInteger(galList.length) ? galList.length : 0;
+      if (testEl) testEl.innerText = Number.isInteger(testList.length) ? testList.length : 0;
 
       // Render Recent Appointments (First 5)
       const tbody = document.getElementById('recentAppointmentsTbody');
