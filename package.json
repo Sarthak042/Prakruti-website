@@ -4,6 +4,7 @@
   "description": "Complete CMS-driven static website and API for Prakruti Homeopathic Hospital",
   "main": "index.html",
   "scripts": {
+    "build": "echo 'Static site build complete'",
     "start": "npx http-server -p 8000",
     "dev": "vercel dev"
   },

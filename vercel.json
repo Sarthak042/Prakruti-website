@@ -1,15 +1,16 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "handle": "filesystem"
+      "source": "/admin",
+      "destination": "/admin/login.html"
     },
     {
-      "src": "/admin/?$",
-      "dest": "/admin/login.html"
+      "source": "/admin/",
+      "destination": "/admin/login.html"
     },
     {
-      "src": "/admin/dashboard/?$",
-      "dest": "/admin/dashboard.html"
+      "source": "/admin/dashboard",
+      "destination": "/admin/dashboard.html"
     }
   ]
 }
