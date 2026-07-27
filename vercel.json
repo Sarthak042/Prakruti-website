@@ -1,16 +1,15 @@
 {
-  "version": 2,
   "routes": [
     {
       "handle": "filesystem"
     },
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1.js"
-    },
-    {
       "src": "/admin/?$",
       "dest": "/admin/login.html"
+    },
+    {
+      "src": "/admin/dashboard/?$",
+      "dest": "/admin/dashboard.html"
     }
   ]
 }

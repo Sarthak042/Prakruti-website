@@ -1,12 +1,59 @@
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 const jwt = require('jsonwebtoken');
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_OWNER = process.env.GITHUB_OWNER;
-const GITHUB_REPO = process.env.GITHUB_REPO;
+const GITHUB_OWNER = process.env.GITHUB_OWNER || 'Sarthak042';
+const GITHUB_REPO = process.env.GITHUB_REPO || 'Prakruti-website';
 const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
 const JWT_SECRET = process.env.JWT_SECRET || 'prakruti_secure_jwt_secret_key_2026_98230';
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'prakruti@admin2026';
+
+/**
+ * Universal HTTP Request Helper for GitHub API
+ */
+function makeGithubApiRequest(urlPath, method = 'GET', bodyData = null) {
+  return new Promise((resolve, reject) => {
+    const postData = bodyData ? JSON.stringify(bodyData) : null;
+    const options = {
+      hostname: 'api.github.com',
+      port: 443,
+      path: urlPath,
+      method: method,
+      headers: {
+        'User-Agent': 'Prakruti-CMS-Vercel-App',
+        'Accept': 'application/vnd.github.v3+json',
+        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+        ...(postData && {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(postData)
+        })
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          try {
+            resolve({ statusCode: res.statusCode, body: JSON.parse(data) });
+          } catch (e) {
+            resolve({ statusCode: res.statusCode, body: data });
+          }
+        } else {
+          reject(new Error(`GitHub API HTTP ${res.statusCode}: ${data}`));
+        }
+      });
+    });
+
+    req.on('error', (err) => reject(err));
+    if (postData) req.write(postData);
+    req.end();
+  });
+}
 
 /**
  * Verify JWT token from Cookies or Auth Header
@@ -15,21 +62,19 @@ function verifyAuth(req) {
   try {
     let token = null;
 
-    // Check Cookie header
-    if (req.headers.cookie) {
-      const cookies = req.headers.cookie.split(';').reduce((acc, cookie) => {
-        const [key, value] = cookie.trim().split('=');
-        acc[key] = value;
-        return acc;
-      }, {});
-      token = cookies.token;
-    }
-
-    // Check Authorization header
-    if (!token && req.headers.authorization) {
+    if (req.headers && req.headers.authorization) {
       if (req.headers.authorization.startsWith('Bearer ')) {
         token = req.headers.authorization.substring(7);
       }
+    }
+
+    if (!token && req.headers && req.headers.cookie) {
+      const cookies = req.headers.cookie.split(';').reduce((acc, cookie) => {
+        const [key, ...v] = cookie.trim().split('=');
+        acc[key] = v.join('=');
+        return acc;
+      }, {});
+      token = cookies.token;
     }
 
     if (!token) return null;
@@ -42,92 +87,80 @@ function verifyAuth(req) {
 }
 
 /**
- * Get JSON content from GitHub or local file system
+ * Get JSON content from GitHub REST API with local filesystem fallback
  */
 async function getJsonFile(filePath) {
-  if (GITHUB_TOKEN && GITHUB_OWNER && GITHUB_REPO) {
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`;
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'Prakruti-CMS-App'
+  if (GITHUB_TOKEN) {
+    try {
+      const apiPath = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`;
+      const result = await makeGithubApiRequest(apiPath, 'GET');
+      if (result.body && result.body.content) {
+        const contentStr = Buffer.from(result.body.content, 'base64').toString('utf-8');
+        return {
+          data: JSON.parse(contentStr),
+          sha: result.body.sha
+        };
       }
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`GitHub API Error (${response.status}): ${errText}`);
+    } catch (err) {
+      console.warn(`GitHub API read failed for ${filePath}, using local fallback:`, err.message);
     }
-
-    const data = await response.json();
-    const contentStr = Buffer.from(data.content, 'base64').toString('utf-8');
-    return {
-      data: JSON.parse(contentStr),
-      sha: data.sha
-    };
-  } else {
-    // Fallback to local file system
-    const localPath = path.join(process.cwd(), filePath);
-    if (!fs.existsSync(localPath)) {
-      throw new Error(`Local file not found: ${filePath}`);
-    }
-    const raw = fs.readFileSync(localPath, 'utf-8');
-    return {
-      data: JSON.parse(raw),
-      sha: 'local-sha'
-    };
   }
+
+  // Fallback to local file system
+  const localPath = path.join(process.cwd(), filePath);
+  if (!fs.existsSync(localPath)) {
+    throw new Error(`Local data file not found: ${filePath}`);
+  }
+  const raw = fs.readFileSync(localPath, 'utf-8');
+  return {
+    data: JSON.parse(raw),
+    sha: 'local-file-sha'
+  };
 }
 
 /**
- * Update JSON content on GitHub API or local file system
+ * Update JSON content on GitHub REST API with local filesystem fallback
  */
 async function updateJsonFile(filePath, jsonObject, commitMessage) {
   const jsonString = JSON.stringify(jsonObject, null, 2);
 
-  if (GITHUB_TOKEN && GITHUB_OWNER && GITHUB_REPO) {
-    // 1. Get current SHA
-    const currentFile = await getJsonFile(filePath);
-    const sha = currentFile.sha;
+  if (GITHUB_TOKEN) {
+    try {
+      const currentFile = await getJsonFile(filePath);
+      const sha = currentFile.sha;
 
-    // 2. Commit update to GitHub
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`;
-    const base64Content = Buffer.from(jsonString).toString('base64');
+      const apiPath = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`;
+      const base64Content = Buffer.from(jsonString).toString('base64');
 
-    const response = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Prakruti-CMS-App'
-      },
-      body: JSON.stringify({
+      const updatePayload = {
         message: commitMessage || `Update ${filePath}`,
         content: base64Content,
-        sha: sha,
+        ...(sha && sha !== 'local-file-sha' && { sha }),
         branch: GITHUB_BRANCH
-      })
-    });
+      };
 
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`GitHub API Commit Error (${response.status}): ${errText}`);
+      const result = await makeGithubApiRequest(apiPath, 'PUT', updatePayload);
+      return result.body;
+    } catch (err) {
+      console.warn(`GitHub API commit failed for ${filePath}, applying local fallback:`, err.message);
     }
-
-    return await response.json();
-  } else {
-    // Fallback to local file system
-    const localPath = path.join(process.cwd(), filePath);
-    fs.writeFileSync(localPath, jsonString, 'utf-8');
-    return { success: true, local: true };
   }
+
+  // Local file system fallback
+  const localPath = path.join(process.cwd(), filePath);
+  fs.writeFileSync(localPath, jsonString, 'utf-8');
+  return { success: true, local: true };
 }
 
 module.exports = {
   verifyAuth,
   getJsonFile,
   updateJsonFile,
-  JWT_SECRET
+  GITHUB_TOKEN,
+  GITHUB_OWNER,
+  GITHUB_REPO,
+  GITHUB_BRANCH,
+  JWT_SECRET,
+  ADMIN_USERNAME,
+  ADMIN_PASSWORD
 };

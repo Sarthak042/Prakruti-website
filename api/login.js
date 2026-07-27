@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('./_github');
+const { JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD } = require('./_github');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -8,12 +8,10 @@ module.exports = async function handler(req, res) {
 
   try {
     const { username, password } = req.body || {};
-    const envAdminUser = process.env.ADMIN_USERNAME || 'admin';
-    const envAdminPass = process.env.ADMIN_PASSWORD || 'prakruti@admin2026';
 
-    if (username === envAdminUser && password === envAdminPass) {
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       const token = jwt.sign(
-        { username: envAdminUser, role: 'admin', time: Date.now() },
+        { username: ADMIN_USERNAME, role: 'admin', time: Date.now() },
         JWT_SECRET,
         { expiresIn: '24h' }
       );
@@ -27,7 +25,7 @@ module.exports = async function handler(req, res) {
         success: true,
         message: 'Login successful',
         token,
-        username: envAdminUser
+        username: ADMIN_USERNAME
       });
     } else {
       return res.status(401).json({ error: 'Invalid username or password' });
