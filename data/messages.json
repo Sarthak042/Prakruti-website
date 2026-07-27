@@ -1,0 +1,10 @@
+[
+  {
+    "id": "msg-201",
+    "name": "Vikram Kamble",
+    "phone": "+91 98901 12345",
+    "email": "vikram.k@example.com",
+    "message": "Hello Dr. Sayali, what are the clinic OPD timings on Saturdays?",
+    "createdAt": "2026-07-27T09:20:00Z"
+  }
+]

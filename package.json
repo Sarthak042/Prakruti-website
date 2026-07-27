@@ -1,0 +1,25 @@
+{
+  "name": "prakruti-homeopathic-hospital",
+  "version": "2.0.0",
+  "description": "Complete CMS-driven static website and API for Prakruti Homeopathic Hospital",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8000",
+    "dev": "vercel dev"
+  },
+  "keywords": [
+    "homeopathy",
+    "hospital",
+    "cms",
+    "vercel",
+    "serverless",
+    "github-api"
+  ],
+  "author": "Dr. Sayali Mahesh Patil",
+  "license": "ISC",
+  "dependencies": {
+    "cookie": "^0.6.0",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

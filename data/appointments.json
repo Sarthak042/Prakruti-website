@@ -1,0 +1,24 @@
+[
+  {
+    "id": "apt-101",
+    "name": "Rajesh More",
+    "phone": "+91 98221 45678",
+    "email": "rajesh.more@example.com",
+    "service": "Chronic Diseases",
+    "date": "2026-07-28",
+    "message": "Looking for consultation regarding chronic sinus and headache.",
+    "status": "Pending",
+    "createdAt": "2026-07-27T10:15:00Z"
+  },
+  {
+    "id": "apt-102",
+    "name": "Priyanka Shinde",
+    "phone": "+91 97654 32109",
+    "email": "priyanka.s@example.com",
+    "service": "Skin Disorders",
+    "date": "2026-07-29",
+    "message": "Need homeopathic treatment for skin eczema.",
+    "status": "Completed",
+    "createdAt": "2026-07-26T14:30:00Z"
+  }
+]

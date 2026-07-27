@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | प्रकृती Homeopathic Hospital</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f382c 0%, #1b4d3e 50%, #2e7d60 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #1f2937;
+    }
+    .login-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      width: 100%;
+      max-width: 440px;
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .login-logo {
+      width: 68px;
+      height: 68px;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 4px 10px rgba(27,77,62,0.3));
+    }
+    .brand-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f382c;
+      letter-spacing: 0.5px;
+    }
+    .brand-subtitle {
+      font-size: 0.85rem;
+      color: #6b7280;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+    .form-group {
+      margin-bottom: 22px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #1b4d3e;
+      margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: #f8faf9;
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #1b4d3e;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(27, 77, 62, 0.15);
+    }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #1b4d3e 0%, #2e7d60 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(27, 77, 62, 0.25);
+    }
+    .login-btn:hover {
+      background: #0f382c;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(27, 77, 62, 0.35);
+    }
+    .error-banner {
+      display: none;
+      padding: 12px 16px;
+      background: #fee2e2;
+      border-left: 4px solid #ef4444;
+      color: #991b1b;
+      font-size: 0.875rem;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .back-home {
+      display: block;
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.875rem;
+      color: #2e7d60;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .back-home:hover {
+      color: #0f382c;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <div class="login-header">
+      <img src="../favicon.svg" alt="Prakruti Logo" class="login-logo">
+      <h1 class="brand-title">🏥 प्रकृती Admin</h1>
+      <div class="brand-subtitle">CMS Portal Login</div>
+    </div>
+
+    <div class="error-banner" id="errorBanner"></div>
+
+    <form id="adminLoginForm">
+      <div class="form-group">
+        <label class="form-label" for="username">Username</label>
+        <input type="text" id="username" class="form-input" placeholder="Enter admin username" required autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" id="password" class="form-input" placeholder="Enter admin password" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="login-btn" id="loginBtn">Login to Dashboard</button>
+    </form>
+
+    <a href="../index.html" class="back-home">← Back to Main Website</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if already logged in
+      const token = localStorage.getItem('prakruti_admin_token');
+      if (token) {
+        window.location.href = 'dashboard.html';
+      }
+
+      const form = document.getElementById('adminLoginForm');
+      const errorBanner = document.getElementById('errorBanner');
+      const loginBtn = document.getElementById('loginBtn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorBanner.style.display = 'none';
+        loginBtn.disabled = true;
+        loginBtn.innerText = 'Authenticating...';
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        try {
+          const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            if (data.token) {
+              localStorage.setItem('prakruti_admin_token', data.token);
+            }
+            window.location.href = 'dashboard.html';
+          } else {
+            errorBanner.innerText = data.error || 'Invalid credentials';
+            errorBanner.style.display = 'block';
+          }
+        } catch (err) {
+          errorBanner.innerText = 'Network error. Please try again.';
+          errorBanner.style.display = 'block';
+        } finally {
+          loginBtn.disabled = false;
+          loginBtn.innerText = 'Login to Dashboard';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

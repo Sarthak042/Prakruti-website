@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | प्रकृती Homeopathic Hospital</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="../favicon.svg" alt="Logo" class="sidebar-logo">
+      <span class="sidebar-title">प्रकृती Admin</span>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a class="menu-item active" data-tab="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a class="menu-item" data-tab="appointments">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>Appointments</span>
+      </a>
+
+      <a class="menu-item" data-tab="messages">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <span>Messages</span>
+      </a>
+
+      <a class="menu-item" data-tab="treatments">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+        <span>Treatments</span>
+      </a>
+
+      <a class="menu-item" data-tab="gallery">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <span>Gallery</span>
+      </a>
+
+      <a class="menu-item" data-tab="testimonials">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <span>Testimonials</span>
+      </a>
+
+      <a class="menu-item" data-tab="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Website Settings</span>
+      </a>
+
+      <a class="menu-item logout-btn" id="logoutBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <!-- Top Header Bar -->
+    <header class="top-header">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="mobile-sidebar-toggle" id="sidebarToggle">☰</button>
+        <h1 class="header-title" id="pageHeaderTitle">Dashboard Overview</h1>
+      </div>
+
+      <div class="user-profile">
+        <a href="../index.html" target="_blank" class="view-site-link">🌐 View Website</a>
+        <div style="font-weight: 600; color: var(--primary-green-dark);">Dr. Sayali Patil</div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="content-area">
+
+      <!-- 1. OVERVIEW TAB -->
+      <section class="tab-content active" id="overviewTab">
+        <div class="dashboard-cards">
+          <div class="stat-card">
+            <div>
+              <div class="stat-info-val" id="statAppointmentsCount">0</div>
+              <div class="stat-info-lbl">Total Appointments</div>
+            </div>
+            <div class="stat-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-info-val" id="statMessagesCount">0</div>
+              <div class="stat-info-lbl">Total Messages</div>
+            </div>
+            <div class="stat-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-info-val" id="statGalleryCount">0</div>
+              <div class="stat-info-lbl">Gallery Images</div>
+            </div>
+            <div class="stat-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-info-val" id="statTestimonialsCount">0</div>
+              <div class="stat-info-lbl">Testimonials</div>
+            </div>
+            <div class="stat-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <div class="box-header">
+            <h2 class="box-title">Recent Appointments</h2>
+            <button class="btn-add" id="viewAllAppointmentsBtn">View All</button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Patient Name</th>
+                  <th>Phone</th>
+                  <th>Service</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentAppointmentsTbody">
+                <tr><td colspan="5" style="text-align:center; padding: 20px;">Loading data...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. APPOINTMENTS TAB -->
+      <section class="tab-content" id="appointmentsTab">
+        <div class="card-box">
+          <div class="box-header">
+            <h2 class="box-title">All Patient Appointments</h2>
+            <div class="search-box">
+              <input type="text" class="search-input" id="aptSearchInput" placeholder="Search by name or phone...">
+              <select class="search-input" id="aptStatusFilter" style="width: auto;">
+                <option value="ALL">All Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Patient Name</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Service / Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="appointmentsTbody">
+                <tr><td colspan="6" style="text-align:center; padding: 20px;">Loading appointments...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination" id="aptPagination"></div>
+        </div>
+      </section>
+
+      <!-- 3. MESSAGES TAB -->
+      <section class="tab-content" id="messagesTab">
+        <div class="card-box">
+          <div class="box-header">
+            <h2 class="box-title">Contact Form Messages</h2>
+            <input type="text" class="search-input" id="msgSearchInput" placeholder="Search messages...">
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Sender Name</th>
+                  <th>Phone / Email</th>
+                  <th>Message Preview</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="messagesTbody">
+                <tr><td colspan="5" style="text-align:center; padding: 20px;">Loading messages...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. TREATMENTS TAB -->
+      <section class="tab-content" id="treatmentsTab">
+        <div class="card-box">
+          <div class="box-header">
+            <h2 class="box-title">Hospital Treatments</h2>
+            <button class="btn-add" id="addTreatmentBtn">+ Add Treatment</button>
+          </div>
+
+          <div class="admin-grid" id="treatmentsGrid">
+            <div>Loading treatments...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. GALLERY TAB -->
+      <section class="tab-content" id="galleryTab">
+        <div class="card-box">
+          <div class="box-header">
+            <h2 class="box-title">Gallery Image Management</h2>
+            <button class="btn-add" id="addGalleryBtn">+ Add Image URL</button>
+          </div>
+
+          <div class="admin-grid" id="galleryGrid">
+            <div>Loading gallery images...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. TESTIMONIALS TAB -->
+      <section class="tab-content" id="testimonialsTab">
+        <div class="card-box">
+          <div class="box-header">
+            <h2 class="box-title">Patient Testimonials</h2>
+            <button class="btn-add" id="addTestimonialBtn">+ Add Testimonial</button>
+          </div>
+
+          <div class="admin-grid" id="testimonialsGrid">
+            <div>Loading testimonials...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. SETTINGS TAB -->
+      <section class="tab-content" id="settingsTab">
+        <div class="card-box" style="max-width: 900px; margin: 0 auto;">
+          <div class="box-header">
+            <h2 class="box-title">Edit Website Settings</h2>
+            <button class="btn-add" id="saveSettingsBtn">Save All Changes</button>
+          </div>
+
+          <form id="settingsForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <div class="form-group-admin">
+                <label class="form-label-admin">Hospital Display Name</label>
+                <input type="text" id="setHospitalName" class="form-control-admin" required>
+              </div>
+
+              <div class="form-group-admin">
+                <label class="form-label-admin">Doctor Full Name</label>
+                <input type="text" id="setDoctorName" class="form-control-admin" required>
+              </div>
+
+              <div class="form-group-admin">
+                <label class="form-label-admin">Degree & Qualifications</label>
+                <input type="text" id="setDoctorDegree" class="form-control-admin" required>
+              </div>
+
+              <div class="form-group-admin">
+                <label class="form-label-admin">Phone Number</label>
+                <input type="text" id="setPhone" class="form-control-admin" required>
+              </div>
+
+              <div class="form-group-admin">
+                <label class="form-label-admin">Email Address</label>
+                <input type="email" id="setEmail" class="form-control-admin" required>
+              </div>
+
+              <div class="form-group-admin">
+                <label class="form-label-admin">City / Locality</label>
+                <input type="text" id="setCity" class="form-control-admin" required>
+              </div>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="form-label-admin">Full Address</label>
+              <textarea id="setAddress" class="form-control-admin" rows="2" required></textarea>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="form-label-admin">Working Hours (Mon-Sat)</label>
+              <input type="text" id="setWorkingHours" class="form-control-admin" required>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="form-label-admin">Google Maps / OpenStreetMap Embed URL</label>
+              <input type="text" id="setMapUrl" class="form-control-admin">
+            </div>
+
+            <div class="form-group-admin">
+              <label class="form-label-admin">Hero Heading</label>
+              <input type="text" id="setHeroHeading" class="form-control-admin" required>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="form-label-admin">Hero Subheading / Description</label>
+              <textarea id="setHeroSubheading" class="form-control-admin" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="form-label-admin">Marathi Motivational Quotes (One per line)</label>
+              <textarea id="setMarathiQuotes" class="form-control-admin" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="form-label-admin">Footer Copyright Text</label>
+              <input type="text" id="setFooterText" class="form-control-admin" required>
+            </div>
+
+            <button type="submit" class="btn-add" style="width: 100%; padding: 14px; margin-top: 10px;">Save Settings to GitHub</button>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title" id="modalTitle">Modal Header</h3>
+        <button class="admin-modal-close" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="admin-modal-body" id="modalBody">
+        <!-- Dynamic Modal Form / Details -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-bar" id="toastBar">Notification message</div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "hospitalName": "प्रकृती",
+  "hospitalFullName": "प्रकृती (Prakruti) Homeopathic Hospital",
+  "doctorName": "Dr. Sayali Mahesh Patil",
+  "doctorDegree": "BHMS (Bachelor of Homeopathic Medicine and Surgery)",
+  "phone": "+91 98230 12345",
+  "secondaryPhone": "+91 98230 67890",
+  "email": "info@prakrutihospital.com",
+  "address": "Plot 42, Health Avenue, Near Tarabai Park, Kolhapur City, Maharashtra 416003",
+  "city": "Kolhapur City",
+  "pincode": "416003",
+  "googleMapUrl": "https://www.openstreetmap.org/export/embed.html?bbox=74.2000%2C16.6800%2C74.2600%2C16.7200&layer=mapnik&marker=16.7050%2C74.2400",
+  "workingHoursWeekdays": "10:00 AM – 7:00 PM",
+  "workingHoursSunday": "Emergency Consultation Only",
+  "heroHeading": "Natural Healing with Homeopathy",
+  "heroSubheading": "Experience safe, gentle, and long-lasting recovery through gentle personalized homeopathic medicine tailored for your mind, body, and spirit.",
+  "marathiQuotes": [
+    "आरोग्य हीच खरी संपत्ती.",
+    "निरोगी शरीर, आनंदी जीवन.",
+    "निसर्गाच्या सहवासात आरोग्याचा नवा प्रवास.",
+    "प्रकृतीसोबत चालूया, निरोगी आयुष्य घडवूया.",
+    "रोगावर नाही, तर रुग्णावर उपचार.",
+    "होमिओपॅथी म्हणजे शरीर, मन आणि आत्म्याचा समतोल.",
+    "विश्वास, सेवा आणि आरोग्य यांची सुंदर सांगड.",
+    "तुमच्या उत्तम आरोग्यासाठी आमची सदैव साथ."
+  ],
+  "footerText": "© 2026 प्रकृती | Dr. Sayali Mahesh Patil (BHMS). All Rights Reserved."
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "gal-1",
+    "title": "Hospital Reception",
+    "category": "reception",
+    "image": "assets/images/reception.jpg",
+    "visible": true
+  },
+  {
+    "id": "gal-2",
+    "title": "Consultation Room",
+    "category": "consultation",
+    "image": "assets/images/consultation_room.jpg",
+    "visible": true
+  },
+  {
+    "id": "gal-3",
+    "title": "Homeopathic Pharmacy",
+    "category": "medicines",
+    "image": "assets/images/medicines.jpg",
+    "visible": true
+  },
+  {
+    "id": "gal-4",
+    "title": "Patient Waiting Lounge",
+    "category": "waiting",
+    "image": "assets/images/waiting_area.jpg",
+    "visible": true
+  },
+  {
+    "id": "gal-5",
+    "title": "Doctor Cabin",
+    "category": "cabin",
+    "image": "assets/images/doctor_cabin.jpg",
+    "visible": true
+  }
+]

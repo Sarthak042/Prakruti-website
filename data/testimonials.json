@@ -1,0 +1,26 @@
+[
+  {
+    "id": "test-1",
+    "name": "Anjali Patil",
+    "location": "Kolhapur Patient",
+    "rating": 5,
+    "quote_en": "Very caring doctor. Excellent treatment.",
+    "quote_mr": "खूप काळजी घेणाऱ्या डॉक्टर आहेत. माझ्या जुनाट अ‍ॅलर्जीचा त्रास होमिओपॅथीमुळे पूर्णपणे बरा झाला."
+  },
+  {
+    "id": "test-2",
+    "name": "Rohan Deshmukh",
+    "location": "Skin Care Patient",
+    "rating": 5,
+    "quote_en": "Best Homeopathy experience.",
+    "quote_mr": "डॉ. सायली पाटील यांची केस-टेकिंग अतिशय सखोल आहे. औषधे अत्यंत परिणामकारक आहेत."
+  },
+  {
+    "id": "test-3",
+    "name": "Sunita Kulkarni",
+    "location": "Pediatric Care",
+    "rating": 5,
+    "quote_en": "Very nice treatment experience. Doctor understands very well.",
+    "quote_mr": "खूप छान अनुभव. डॉक्टर अतिशय समजून घेतात. माझ्या मुलाला उत्तम फायदा झाला."
+  }
+]
