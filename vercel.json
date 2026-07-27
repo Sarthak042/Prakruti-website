@@ -1,6 +1,22 @@
 {
   "rewrites": [
     {
+      "source": "/login",
+      "destination": "/admin/login.html"
+    },
+    {
+      "source": "/login.html",
+      "destination": "/admin/login.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/admin/dashboard.html"
+    },
+    {
+      "source": "/dashboard.html",
+      "destination": "/admin/dashboard.html"
+    },
+    {
       "source": "/admin",
       "destination": "/admin/login.html"
     },
