@@ -39,6 +39,6 @@
     "title": "Doctor Cabin",
     "category": "cabin",
     "image": "assets/images/doctor_cabin.jpg",
-    "visible": true
+    "visible": false
   }
 ]
