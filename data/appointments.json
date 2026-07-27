@@ -1,13 +1,1 @@
-[
-  {
-    "id": "apt-102",
-    "name": "Priyanka Shinde",
-    "phone": "+91 97654 32109",
-    "email": "priyanka.s@example.com",
-    "service": "Skin Disorders",
-    "date": "2026-07-29",
-    "message": "Need homeopathic treatment for skin eczema.",
-    "status": "Completed",
-    "createdAt": "2026-07-26T14:30:00Z"
-  }
-]
+[]
