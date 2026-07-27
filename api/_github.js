@@ -3,13 +3,13 @@ const path = require('path');
 const https = require('https');
 const jwt = require('jsonwebtoken');
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_OWNER = process.env.GITHUB_OWNER || 'Sarthak042';
-const GITHUB_REPO = process.env.GITHUB_REPO || 'Prakruti-website';
-const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN ? process.env.GITHUB_TOKEN.trim() : null;
+const GITHUB_OWNER = (process.env.GITHUB_OWNER || 'Sarthak042').trim();
+const GITHUB_REPO = (process.env.GITHUB_REPO || 'Prakruti-website').trim();
+const GITHUB_BRANCH = (process.env.GITHUB_BRANCH || 'main').trim();
 const JWT_SECRET = process.env.JWT_SECRET || 'prakruti_secure_jwt_secret_key_2026_98230';
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'prakruti@admin2026';
+const ADMIN_USERNAME = (process.env.ADMIN_USERNAME || 'admin').trim();
+const ADMIN_PASSWORD = (process.env.ADMIN_PASSWORD || 'prakruti@admin2026').trim();
 
 // Ephemeral memory cache for fast state sync
 const memoryCache = {};
