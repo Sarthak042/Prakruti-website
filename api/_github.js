@@ -107,7 +107,7 @@ async function getJsonFile(filePath) {
         };
       }
     } catch (err) {
-      console.warn(`GitHub API read failed for ${filePath}, checking memory/local:`, err.message);
+      console.warn(`GitHub API read failed for ${filePath}:`, err.message);
     }
   }
 
@@ -157,27 +157,35 @@ async function updateJsonFile(filePath, jsonObject, commitMessage) {
 
   if (GITHUB_TOKEN) {
     try {
-      const currentFile = await getJsonFile(filePath);
-      const sha = currentFile.sha;
+      // 1. Fetch fresh SHA directly from GitHub API
+      let sha = null;
+      try {
+        const apiPath = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`;
+        const freshFile = await makeGithubApiRequest(apiPath, 'GET');
+        if (freshFile.body && freshFile.body.sha) {
+          sha = freshFile.body.sha;
+        }
+      } catch (e) {}
 
+      // 2. Commit payload
       const apiPath = `/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`;
       const base64Content = Buffer.from(jsonString).toString('base64');
 
       const updatePayload = {
         message: commitMessage || `Update ${filePath}`,
         content: base64Content,
-        ...(sha && sha !== 'local-file-sha' && sha !== 'memory-cache-sha' && { sha }),
+        ...(sha && { sha }),
         branch: GITHUB_BRANCH
       };
 
       const result = await makeGithubApiRequest(apiPath, 'PUT', updatePayload);
       return result.body;
     } catch (err) {
-      console.warn(`GitHub API commit failed for ${filePath}:`, err.message);
+      console.warn(`GitHub API commit error for ${filePath}:`, err.message);
     }
   }
 
-  // Attempt local file write fallback
+  // Local file write fallback
   try {
     const localPath = path.join(process.cwd(), filePath);
     const dirPath = path.dirname(localPath);

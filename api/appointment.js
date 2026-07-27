@@ -42,8 +42,8 @@ module.exports = async function handler(req, res) {
         createdAt: new Date().toISOString()
       };
       messagesList.unshift(newMsg);
-      await updateJsonFile(msgFilePath, messagesList, 'New contact message received');
-      return res.status(201).json({ success: true, message: 'Message sent successfully', id: newMsg.id });
+      const commitRes = await updateJsonFile(msgFilePath, messagesList, 'New contact message received');
+      return res.status(201).json({ success: true, message: 'Message sent successfully', id: newMsg.id, commit: commitRes });
     } else {
       // Save to appointments.json
       const aptFilePath = 'data/appointments.json';
@@ -63,8 +63,8 @@ module.exports = async function handler(req, res) {
       };
 
       appointmentsList.unshift(newApt);
-      await updateJsonFile(aptFilePath, appointmentsList, 'New appointment received');
-      return res.status(201).json({ success: true, message: 'Appointment submitted successfully', id: newApt.id });
+      const commitRes = await updateJsonFile(aptFilePath, appointmentsList, 'New appointment received');
+      return res.status(201).json({ success: true, message: 'Appointment submitted successfully', id: newApt.id, commit: commitRes });
     }
   } catch (err) {
     console.error('Appointment API error:', err);
