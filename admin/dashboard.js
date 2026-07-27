@@ -5,6 +5,13 @@
 document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('prakruti_admin_token');
 
+  // Universal Array Extractor
+  function ensureArray(val) {
+    if (Array.isArray(val)) return val;
+    if (val && Array.isArray(val.data)) return val.data;
+    return [];
+  }
+
   // Verify login status
   async function checkAuth() {
     try {
@@ -146,22 +153,27 @@ document.addEventListener('DOMContentLoaded', () => {
         apiFetch('/api/testimonials').then(r => r.json()).catch(() => [])
       ]);
 
-      state.appointments = aptRes;
-      state.messages = msgRes;
-      state.gallery = galRes;
-      state.testimonials = testRes;
+      const aptList = ensureArray(aptRes);
+      const msgList = ensureArray(msgRes);
+      const galList = ensureArray(galRes);
+      const testList = ensureArray(testRes);
 
-      document.getElementById('statAppointmentsCount').innerText = aptRes.length;
-      document.getElementById('statMessagesCount').innerText = msgRes.length;
-      document.getElementById('statGalleryCount').innerText = galRes.length;
-      document.getElementById('statTestimonialsCount').innerText = testRes.length;
+      state.appointments = aptList;
+      state.messages = msgList;
+      state.gallery = galList;
+      state.testimonials = testList;
+
+      document.getElementById('statAppointmentsCount').innerText = aptList.length;
+      document.getElementById('statMessagesCount').innerText = msgList.length;
+      document.getElementById('statGalleryCount').innerText = galList.length;
+      document.getElementById('statTestimonialsCount').innerText = testList.length;
 
       // Render Recent Appointments (First 5)
       const tbody = document.getElementById('recentAppointmentsTbody');
-      if (aptRes.length === 0) {
+      if (aptList.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No appointments found.</td></tr>`;
       } else {
-        tbody.innerHTML = aptRes.slice(0, 5).map(apt => `
+        tbody.innerHTML = aptList.slice(0, 5).map(apt => `
           <tr>
             <td><strong>${escapeHtml(apt.name)}</strong></td>
             <td>${escapeHtml(apt.phone)}</td>
@@ -189,7 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadAppointments() {
     try {
       const res = await apiFetch('/api/appointments');
-      state.appointments = await res.json();
+      const data = await res.json();
+      state.appointments = ensureArray(data);
       renderAppointments();
     } catch (err) {
       console.error(err);
@@ -290,7 +303,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadMessages() {
     try {
       const res = await apiFetch('/api/messages');
-      state.messages = await res.json();
+      const data = await res.json();
+      state.messages = ensureArray(data);
       renderMessages();
     } catch (err) {
       console.error(err);
@@ -362,7 +376,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadTreatments() {
     try {
       const res = await apiFetch('/api/treatments');
-      state.treatments = await res.json();
+      const data = await res.json();
+      state.treatments = ensureArray(data);
       renderTreatments();
     } catch (err) {
       console.error(err);
@@ -483,7 +498,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadGallery() {
     try {
       const res = await apiFetch('/api/gallery');
-      state.gallery = await res.json();
+      const data = await res.json();
+      state.gallery = ensureArray(data);
       renderGallery();
     } catch (err) {
       console.error(err);
@@ -583,7 +599,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadTestimonials() {
     try {
       const res = await apiFetch('/api/testimonials');
-      state.testimonials = await res.json();
+      const data = await res.json();
+      state.testimonials = ensureArray(data);
       renderTestimonials();
     } catch (err) {
       console.error(err);
