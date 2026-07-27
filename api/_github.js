@@ -11,6 +11,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'prakruti_secure_jwt_secret_key_202
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'prakruti@admin2026';
 
+// Ephemeral memory cache for fast state sync
+const memoryCache = {};
+
 /**
  * Universal HTTP Request Helper for GitHub API
  */
@@ -87,7 +90,7 @@ function verifyAuth(req) {
 }
 
 /**
- * Get JSON content from GitHub REST API with local filesystem fallback
+ * Get JSON content from GitHub REST API with memory cache & local fallback
  */
 async function getJsonFile(filePath) {
   if (GITHUB_TOKEN) {
@@ -96,14 +99,24 @@ async function getJsonFile(filePath) {
       const result = await makeGithubApiRequest(apiPath, 'GET');
       if (result.body && result.body.content) {
         const contentStr = Buffer.from(result.body.content, 'base64').toString('utf-8');
+        const parsed = JSON.parse(contentStr);
+        memoryCache[filePath] = parsed;
         return {
-          data: JSON.parse(contentStr),
+          data: parsed,
           sha: result.body.sha
         };
       }
     } catch (err) {
-      console.warn(`GitHub API read failed for ${filePath}, using local fallback:`, err.message);
+      console.warn(`GitHub API read failed for ${filePath}, checking memory/local:`, err.message);
     }
+  }
+
+  // Check memory cache
+  if (memoryCache[filePath]) {
+    return {
+      data: memoryCache[filePath],
+      sha: 'memory-cache-sha'
+    };
   }
 
   // Fallback to local file system
@@ -111,6 +124,7 @@ async function getJsonFile(filePath) {
   if (!fs.existsSync(localPath)) {
     console.warn(`Data file not found at ${localPath}, returning default empty structure`);
     const defaultData = filePath.includes('settings.json') ? {} : [];
+    memoryCache[filePath] = defaultData;
     return {
       data: defaultData,
       sha: 'local-file-sha'
@@ -119,20 +133,26 @@ async function getJsonFile(filePath) {
 
   try {
     const raw = fs.readFileSync(localPath, 'utf-8');
+    const parsed = JSON.parse(raw);
+    memoryCache[filePath] = parsed;
     return {
-      data: JSON.parse(raw),
+      data: parsed,
       sha: 'local-file-sha'
     };
   } catch (e) {
     const defaultData = filePath.includes('settings.json') ? {} : [];
+    memoryCache[filePath] = defaultData;
     return { data: defaultData, sha: 'local-file-sha' };
   }
 }
 
 /**
- * Update JSON content on GitHub REST API with local filesystem fallback
+ * Update JSON content on GitHub REST API with memory cache & local fallback
  */
 async function updateJsonFile(filePath, jsonObject, commitMessage) {
+  // Store in memory cache immediately
+  memoryCache[filePath] = jsonObject;
+
   const jsonString = JSON.stringify(jsonObject, null, 2);
 
   if (GITHUB_TOKEN) {
@@ -146,18 +166,18 @@ async function updateJsonFile(filePath, jsonObject, commitMessage) {
       const updatePayload = {
         message: commitMessage || `Update ${filePath}`,
         content: base64Content,
-        ...(sha && sha !== 'local-file-sha' && { sha }),
+        ...(sha && sha !== 'local-file-sha' && sha !== 'memory-cache-sha' && { sha }),
         branch: GITHUB_BRANCH
       };
 
       const result = await makeGithubApiRequest(apiPath, 'PUT', updatePayload);
       return result.body;
     } catch (err) {
-      console.warn(`GitHub API commit failed for ${filePath}, applying local fallback:`, err.message);
+      console.warn(`GitHub API commit failed for ${filePath}:`, err.message);
     }
   }
 
-  // Local file system fallback
+  // Attempt local file write fallback
   try {
     const localPath = path.join(process.cwd(), filePath);
     const dirPath = path.dirname(localPath);
@@ -165,11 +185,9 @@ async function updateJsonFile(filePath, jsonObject, commitMessage) {
       fs.mkdirSync(dirPath, { recursive: true });
     }
     fs.writeFileSync(localPath, jsonString, 'utf-8');
-    return { success: true, local: true };
-  } catch (err) {
-    console.warn(`Local file write fallback skipped in read-only environment:`, err.message);
-    return { success: true, memoryOnly: true };
-  }
+  } catch (err) {}
+
+  return { success: true, memory: true };
 }
 
 module.exports = {
