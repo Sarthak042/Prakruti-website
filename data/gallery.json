@@ -25,7 +25,7 @@
     "title": "Homeopathic Pharmacy",
     "category": "medicines",
     "image": "assets/images/medicines.jpg",
-    "visible": true
+    "visible": false
   },
   {
     "id": "gal-4",
