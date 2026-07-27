@@ -179,13 +179,14 @@ async function updateJsonFile(filePath, jsonObject, commitMessage) {
       };
 
       const result = await makeGithubApiRequest(apiPath, 'PUT', updatePayload);
-      return result.body;
+      return { success: true, githubCommitted: true, result: result.body };
     } catch (err) {
-      console.warn(`GitHub API commit error for ${filePath}:`, err.message);
+      console.warn(`GitHub API commit failed for ${filePath}:`, err.message);
+      return { success: false, githubCommitted: false, error: err.message };
     }
   }
 
-  // Local file write fallback
+  // Fallback if GITHUB_TOKEN is not configured
   try {
     const localPath = path.join(process.cwd(), filePath);
     const dirPath = path.dirname(localPath);
@@ -195,7 +196,11 @@ async function updateJsonFile(filePath, jsonObject, commitMessage) {
     fs.writeFileSync(localPath, jsonString, 'utf-8');
   } catch (err) {}
 
-  return { success: true, memory: true };
+  return {
+    success: true,
+    githubCommitted: false,
+    error: 'GITHUB_TOKEN is not set in Vercel Environment Variables'
+  };
 }
 
 module.exports = {

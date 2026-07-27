@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return [];
   }
 
-  // Verify login status
+  // Verify login status & GitHub status
   async function checkAuth() {
     try {
       const res = await fetch('/api/github', {
@@ -20,6 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       if (res.status === 401) {
         window.location.href = 'login.html';
+        return;
+      }
+      const statusData = await res.json();
+      const badge = document.getElementById('githubStatusBadge');
+      if (badge && statusData) {
+        if (statusData.githubConfigured) {
+          badge.innerText = '🟢 GitHub API Connected';
+          badge.style.background = '#dcfce7';
+          badge.style.color = '#15803d';
+        } else {
+          badge.innerText = '🟠 GITHUB_TOKEN Missing in Vercel';
+          badge.style.background = '#fef3c7';
+          badge.style.color = '#b45309';
+          badge.title = 'Add GITHUB_TOKEN in Vercel Environment Variables to enable auto-commits';
+        }
       }
     } catch (err) {
       console.warn('Auth check skipped or offline:', err);
