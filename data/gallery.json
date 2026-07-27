@@ -32,7 +32,7 @@
     "title": "Patient Waiting Lounge",
     "category": "waiting",
     "image": "assets/images/waiting_area.jpg",
-    "visible": true
+    "visible": false
   },
   {
     "id": "gal-5",
