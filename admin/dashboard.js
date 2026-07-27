@@ -831,6 +831,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const changePasswordForm = document.getElementById('changePasswordForm');
+  if (changePasswordForm) {
+    changePasswordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('changePasswordBtn');
+      const currentPassword = document.getElementById('currPassword').value.trim();
+      const newPassword = document.getElementById('newPassword').value.trim();
+
+      if (!currentPassword || !newPassword) {
+        showToast('Please enter both current and new password.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Updating password...';
+
+      try {
+        const res = await apiFetch('/api/change-password', {
+          method: 'POST',
+          body: JSON.stringify({ currentPassword, newPassword })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast('🔐 Password updated successfully! It has been committed to GitHub.');
+          changePasswordForm.reset();
+        } else {
+          showToast(data.error || 'Failed to update password');
+        }
+      } catch (err) {
+        showToast('Error: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Update Admin Password';
+      }
+    });
+  }
+
   // Utility XSS Escaper
   function escapeHtml(str) {
     if (!str) return '';

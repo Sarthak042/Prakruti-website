@@ -330,6 +330,28 @@
 
             <button type="submit" class="btn-add" style="width: 100%; padding: 14px; margin-top: 10px;">Save Settings to GitHub</button>
           </form>
+
+          <div style="border-top: 2px dashed #cbd5e1; margin: 36px 0 24px 0;"></div>
+
+          <div class="box-header">
+            <h2 class="box-title">🔐 Change Admin Password</h2>
+          </div>
+
+          <form id="changePasswordForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <div class="form-group-admin">
+                <label class="form-label-admin">Current Password *</label>
+                <input type="password" id="currPassword" class="form-control-admin" required placeholder="Enter current password">
+              </div>
+
+              <div class="form-group-admin">
+                <label class="form-label-admin">New Password *</label>
+                <input type="password" id="newPassword" class="form-control-admin" required placeholder="Min 6 characters">
+              </div>
+            </div>
+
+            <button type="submit" class="btn-add" id="changePasswordBtn" style="width: 100%; padding: 14px; margin-top: 10px; background: #0f382c;">Update Admin Password</button>
+          </form>
         </div>
       </section>
 

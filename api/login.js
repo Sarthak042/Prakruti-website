@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD } = require('./_github');
+const { getJsonFile, JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD } = require('./_github');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -9,9 +9,21 @@ module.exports = async function handler(req, res) {
   try {
     const { username, password } = req.body || {};
 
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+    // Get current active password from settings.json or env fallback
+    let expectedUsername = ADMIN_USERNAME;
+    let expectedPassword = ADMIN_PASSWORD;
+
+    try {
+      const settingsFile = await getJsonFile('data/settings.json');
+      if (settingsFile && settingsFile.data) {
+        if (settingsFile.data.adminUsername) expectedUsername = settingsFile.data.adminUsername;
+        if (settingsFile.data.adminPassword) expectedPassword = settingsFile.data.adminPassword;
+      }
+    } catch (e) {}
+
+    if (username === expectedUsername && password === expectedPassword) {
       const token = jwt.sign(
-        { username: ADMIN_USERNAME, role: 'admin', time: Date.now() },
+        { username: expectedUsername, role: 'admin', time: Date.now() },
         JWT_SECRET,
         { expiresIn: '24h' }
       );
@@ -25,7 +37,7 @@ module.exports = async function handler(req, res) {
         success: true,
         message: 'Login successful',
         token,
-        username: ADMIN_USERNAME
+        username: expectedUsername
       });
     } else {
       return res.status(401).json({ error: 'Invalid username or password' });
