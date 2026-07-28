@@ -156,10 +156,9 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Check if already logged in
-      const token = localStorage.getItem('prakruti_admin_token');
-      if (token) {
-        window.location.href = 'dashboard.html';
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('logout')) {
+        localStorage.removeItem('prakruti_admin_token');
       }
 
       const form = document.getElementById('adminLoginForm');

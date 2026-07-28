@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       });
       if (res.status === 401) {
+        localStorage.removeItem('prakruti_admin_token');
         window.location.href = 'login.html';
         return;
       }
@@ -150,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const res = await fetch(url, { ...options, headers });
     if (res.status === 401) {
+      localStorage.removeItem('prakruti_admin_token');
       window.location.href = 'login.html';
       throw new Error('Unauthorized');
     }
