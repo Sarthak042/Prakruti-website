@@ -18,7 +18,7 @@
     "title": "Consultation Room",
     "category": "consultation",
     "image": "assets/images/consultation_room.jpg",
-    "visible": false
+    "visible": true
   },
   {
     "id": "gal-3",
