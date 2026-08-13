@@ -4,69 +4,100 @@
     "name": "General Consultation",
     "desc": "Thorough health evaluation, general wellness guidance, and preventive homeopathic care for all age groups.",
     "icon": "stethoscope",
-    "tags": ["Health Checkup", "Preventive"]
+    "tags": [
+      "Health Checkup",
+      "Preventive"
+    ]
   },
   {
     "id": "treat-2",
     "name": "Chronic Diseases",
     "desc": "Deep-acting constitutional remedies for long-standing illnesses such as thyroid, hypertension, and autoimmune disorders.",
     "icon": "shield",
-    "tags": ["Thyroid", "Autoimmune"]
+    "tags": [
+      "Thyroid",
+      "Autoimmune"
+    ]
   },
   {
     "id": "treat-3",
     "name": "Skin Disorders",
     "desc": "Effective natural treatment for Psoriasis, Eczema, Acne, Urticaria, Vitiligo, and fungal infections from within.",
     "icon": "sparkles",
-    "tags": ["Eczema", "Psoriasis", "Acne"]
+    "tags": [
+      "Eczema",
+      "Psoriasis",
+      "Acne"
+    ]
   },
   {
     "id": "treat-4",
     "name": "Hair Problems",
     "desc": "Targeted natural remedies for Alopecia, severe hair fall, premature greying, and stubborn scalp dandruff.",
     "icon": "user",
-    "tags": ["Hair Loss", "Alopecia"]
+    "tags": [
+      "Hair Loss",
+      "Alopecia"
+    ]
   },
   {
     "id": "treat-5",
     "name": "Allergies & Asthma",
     "desc": "Root-level desensitization for Allergic Rhinitis, dust allergy, food intolerance, and seasonal sneezing.",
     "icon": "wind",
-    "tags": ["Rhinitis", "Dust Allergy"]
+    "tags": [
+      "Rhinitis",
+      "Dust Allergy"
+    ]
   },
   {
     "id": "treat-6",
     "name": "Migraine & Headaches",
     "desc": "Relief from throbbing vascular headaches, tension migraines, and chronic sinus pressure without painkillers.",
     "icon": "clock",
-    "tags": ["Migraine", "Sinus"]
+    "tags": [
+      "Migraine",
+      "Sinus"
+    ]
   },
   {
     "id": "treat-7",
     "name": "Arthritis & Joint Care",
     "desc": "Reducing joint inflammation, stiffness, and pain in Rheumatoid Arthritis, Osteoarthritis, and Gout.",
     "icon": "activity",
-    "tags": ["Joint Pain", "Gout"]
+    "tags": [
+      "Joint Pain",
+      "Gout"
+    ]
   },
   {
     "id": "treat-8",
     "name": "Children's Health",
     "desc": "Sweet, safe remedies for pediatric recurrent colds, tonsillitis, low appetite, teething trouble, and poor immunity.",
     "icon": "smile",
-    "tags": ["Pediatric", "Sweet Pills"]
+    "tags": [
+      "Pediatric",
+      "Sweet Pills"
+    ]
   },
   {
     "id": "treat-9",
-    "name": "Women's Health",
+    "name": "Women's treatment",
     "desc": "Gentle hormonal balancing for PCOS/PCOD, irregular periods, menopause symptoms, and fibroids.",
     "icon": "heart",
-    "tags": ["PCOS", "Hormonal Balance"]
+    "tags": [
+      "PCOS",
+      "Hormonal Balance"
+    ]
   },
   {
     "id": "treat-10",
     "name": "Digestive Disorders",
     "desc": "Comprehensive relief from Hyperacidity, IBS (Irritable Bowel Syndrome), GERD, chronic constipation, and piles.",
     "icon": "disc",
-    "tags": ["Acidity", "IBS"]
+    "tags": [
+      "Acidity",
+      "IBS"
+    ]
   }
 ]
