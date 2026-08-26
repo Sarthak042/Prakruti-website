@@ -11,7 +11,7 @@
     "title": "Hospital Reception",
     "category": "reception",
     "image": "assets/images/reception.jpg",
-    "visible": true
+    "visible": false
   },
   {
     "id": "gal-2",
