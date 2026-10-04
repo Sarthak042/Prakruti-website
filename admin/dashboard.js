@@ -27,10 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const badge = document.getElementById('githubStatusBadge');
       if (badge && statusData) {
         if (statusData.githubConfigured) {
-          badge.innerHTML = '<span class="status-dot" style="background-color:#16a34a;"></span><span class="status-text">GitHub Connected</span>';
-          badge.title = 'GitHub API Connected';
+          badge.innerText = '🟢 GitHub API Connected';
+          badge.style.background = '#dcfce7';
+          badge.style.color = '#15803d';
         } else {
-          badge.innerHTML = '<span class="status-dot" style="background-color:#d97706;"></span><span class="status-text">GitHub Offline</span>';
+          badge.innerText = '🟠 GITHUB_TOKEN Missing in Vercel';
+          badge.style.background = '#fef3c7';
+          badge.style.color = '#b45309';
           badge.title = 'Add GITHUB_TOKEN in Vercel Environment Variables to enable auto-commits';
         }
       }
@@ -256,11 +259,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <td><span class="badge-status ${apt.status === 'Completed' ? 'badge-completed' : 'badge-pending'}">${apt.status}</span></td>
         <td>
           <div class="action-btns">
-            <button type="button" class="btn-action btn-view" onclick="viewAppointment('${apt.id}')">View</button>
-            <button type="button" class="btn-action ${apt.status === 'Completed' ? 'btn-edit' : 'btn-complete'}" onclick="toggleAptStatus('${apt.id}', '${apt.status}')" aria-label="${apt.status === 'Completed' ? 'Mark appointment for ' + escapeHtml(apt.name) + ' as pending' : 'Mark appointment for ' + escapeHtml(apt.name) + ' as completed'}">
-              ${apt.status === 'Completed' ? 'Mark Pending' : 'Mark Complete'}
+            <button class="btn-action btn-view" onclick="viewAppointment('${apt.id}')">View</button>
+            <button class="btn-action ${apt.status === 'Completed' ? 'btn-edit' : 'btn-complete'}" onclick="toggleAptStatus('${apt.id}', '${apt.status}')">
+              ${apt.status === 'Completed' ? 'Pending' : 'Complete'}
             </button>
-            <button type="button" class="btn-action btn-delete" onclick="deleteAppointment('${apt.id}')" aria-label="Delete appointment for ${escapeHtml(apt.name)}">Delete</button>
+            <button class="btn-action btn-delete" onclick="deleteAppointment('${apt.id}')">Delete</button>
           </div>
         </td>
       </tr>
